@@ -1,0 +1,19 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://our.event.com/voyageUpdate.schema.json",
+	"type": "object",
+	"properties": {
+		"startPoint": {
+			"type": "string",
+            "minLength": 1,
+			"maxLength": 50
+		},
+		"endPoint": {
+			"type": "string",
+            "minLength": 1,
+			"maxLength": 50
+		}
+	},
+	"additionalProperties": false,
+	"required": []
+}

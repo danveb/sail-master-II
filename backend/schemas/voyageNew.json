@@ -1,0 +1,28 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://our.event.com/voyageNew.schema.json",
+	"type": "object",
+	"properties": {
+		"startPoint": {
+			"type": "string",
+            "minLength": 1,
+			"maxLength": 50
+		},
+		"endPoint": {
+			"type": "string",
+            "minLength": 1,
+			"maxLength": 50
+		},
+		"sailorUsername": {
+			"type": "string",
+            "minLength": 1,
+			"maxLength": 25
+		}
+	},
+	"additionalProperties": false,
+	"required": [
+		"startPoint",
+		"endPoint",
+		"sailorUsername"
+	]
+}
