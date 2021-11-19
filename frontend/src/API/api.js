@@ -71,8 +71,14 @@ class SailMasterIIApi {
     }
 
     /** Patch current user */
-    static async saveProfile(username, data) {
-        let res = await this.request(`users/${username}`, data, "patch")
+    static async saveProfile(user) {
+        const data = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email, 
+            password: user.password
+        }
+        let res = await this.request(`users/${user.username}`, data, "patch")
         return res.user
     }
 

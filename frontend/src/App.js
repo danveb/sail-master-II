@@ -84,6 +84,12 @@ const App = () => {
     setToken(null) 
   }
 
+  /** Handle user profile edit */
+  const saveProfile = async (formData) => {
+    const response = await SailMasterIIApi.saveProfile(formData)
+    setCurrentUser(response) 
+  }
+
   /** Handle new voyage */
   async function newVoyage(data) {
     try {
@@ -114,7 +120,7 @@ const App = () => {
               <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />}></Route>
               <Route path="/signup" element={<SignupForm signup={signup} />}></Route>
               <Route path="/login" element={<LoginForm login={login} />}></Route>
-              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/profile" element={<Profile saveProfile={saveProfile} currentUser={currentUser} />}></Route>
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>
