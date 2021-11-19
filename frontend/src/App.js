@@ -20,12 +20,12 @@ export const TOKEN_STORAGE_ID = "sailmaster2-token"
 
 const App = () => {
   // useState
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState('foo')
   const [voyage, setVoyage] = useState([])
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID) 
 
   // useEffect 
-  useEffect(function loadUserInfo() {
+  useEffect(() => {
     async function getCurrentUser() {
       if(token) {
         try {
@@ -47,11 +47,13 @@ const App = () => {
     try {
       let token = await SailMasterIIApi.login(loginData)
       setToken(token)
+      alert('Login successful!')
       return {
         success: true
       }
     } catch(err) {
       console.error('Login failed', err)
+      alert('Login failed. Please try again')
       return {
         success: false, err
       }
@@ -63,11 +65,13 @@ const App = () => {
     try {
       let token = await SailMasterIIApi.signup(signupData) 
       setToken(token)
+      alert('Signup successful!')
       return {
         success: true
       }
     } catch(err) {
       console.error('Signup failed', err) 
+      alert('Signup failed. Please try again')
       return {
         success: false, err
       }
@@ -106,7 +110,7 @@ const App = () => {
               <Route path="/clubs" element={<ClubList />}></Route>
               <Route path="/clubs/:id" element={<ClubDetail />}></Route>
               <Route path="/voyage" element={<VoyageList currentUser={currentUser} />}></Route>
-              <Route path="/voyage/:id" element={<VoyageDetail />}></Route>
+              <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />}></Route>
               <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />}></Route>
               <Route path="/signup" element={<SignupForm signup={signup} />}></Route>
               <Route path="/login" element={<LoginForm login={login} />}></Route>
