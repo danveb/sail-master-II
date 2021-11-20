@@ -20,10 +20,19 @@ const ClubDetail = () => {
     return (
         <Card className="mt-4 ">
             <Card.Body>
-                <Card.Title>{club.name}</Card.Title>
-                <Card.Text>{`${club.address}, ${club.city}, ${club.state} ${club.state}`}</Card.Text>
-                <Card.Text>{`${club.url}`}</Card.Text>
-                <Card.Text>{`${club.tel}`}</Card.Text>
+                <Card.Title>Name: {club.name}</Card.Title>
+                <Card.Text>Address: {`${club.address}, ${club.city}, ${club.state} ${club.state}`}</Card.Text>
+                <Card.Text>Website:  
+                    {/* use noreferrer noopener attributes for opening websites in new tabs. Prevents security risks in older browsers */}
+                    <a 
+                        target="_blank" 
+                        href={`https://${club.url}`}
+                        rel="noreferrer noopener"
+                    >
+                        {`${club.url}`}
+                    </a>
+                </Card.Text>
+                <Card.Text>Tel: {`${club.tel}`}</Card.Text>
                 <Card.Text>{`Latitude: ${club.lat} | Longitude: ${club.lon}`}</Card.Text>
             </Card.Body>
         </Card>
