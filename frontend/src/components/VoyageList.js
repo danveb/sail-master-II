@@ -1,17 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react' 
+import React, { useState, useEffect } from 'react' 
 import VoyageTable from './VoyageTable'
 import SailMasterIIApi from '../API/api'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Container, Row, Button } from 'react-bootstrap' 
 
-const VoyageList = ({ currentUser }) => {
-    // useNavigate for react-router-dom v6
-    const navigate = useNavigate() 
-    
+const VoyageList = ({ currentUser }) => {    
     // useState
     const [voyages, setVoyages] = useState([])
-
-    // removeVoyage 
 
     // useEffect
     useEffect(() => {
@@ -24,15 +19,11 @@ const VoyageList = ({ currentUser }) => {
             }
         }
         getVoyages() 
-
-        // cleanup 
-        return function cleanup() {
-            setVoyages([])
-        }
     }, [setVoyages])
 
     // filter voyages based on currentUser
-    let filteredVoyages = voyages.filter((v) => v.sailorUsername === currentUser.username)
+    // if currentUser.isAdmin can view all voyages
+    let filteredVoyages = voyages.filter((v) => v.sailorUsername === currentUser.username || currentUser.isAdmin)
 
     if(!voyages) return console.error('No voyages yet. Please consider adding one')
 
@@ -49,8 +40,7 @@ const VoyageList = ({ currentUser }) => {
                         endPoint={voyage.endPoint}
                         sailorUsername={voyage.sailorUsername} 
                     />
-                ))}
-                    
+                ))} 
             </Row>
         </Container>
     )

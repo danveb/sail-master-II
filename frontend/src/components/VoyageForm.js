@@ -66,6 +66,7 @@ const VoyageForm = ({ currentUser, newVoyage }) => {
                                     placeholder="From" 
                                     onChange={handleChange}
                                 >
+                                    <option value="startPoint">From</option>
                                 {clubs.map((club) => (
                                     <option value={club.name}>{club.name}</option>
                                 ))}
@@ -82,6 +83,7 @@ const VoyageForm = ({ currentUser, newVoyage }) => {
                                     placeholder="To" 
                                     onChange={handleChange}
                                 >
+                                    <option value="endPoint">To</option>
                                 {clubs.map((club) => (
                                     <option value={club.name}>{club.name}</option>
                                 ))}
