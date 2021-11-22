@@ -73,20 +73,20 @@ function ensureCorrectUserOrAdmin(req, res, next) {
 
 /** Middleware to use with voyage. */
 
-// async function ensureCorrectUserOrAdminVoyage(req, res, next) {
-//   try {
-//     const user = res.locals.user 
-//     if(user === undefined) throw new UnauthorizedError() 
-//     const voyage = await Voyage.findAll() 
-//     const correctUser = voyage.find((e) => Object.values(e).includes(user.username))
-//     if(!(user && (user.isAdmin || correctUser.sailorUsername === user.username))) {
-//       throw new UnauthorizedError()
-//     }
-//     return next() 
-//   } catch(err) {
-//     return next(err)
-//   }
-// }
+async function ensureCorrectUserOrAdminVoyage(req, res, next) {
+  try {
+    const user = res.locals.user 
+    if(user === undefined) throw new UnauthorizedError() 
+    const voyage = await Voyage.findAll() 
+    const correctUser = voyage.find((e) => Object.values(e).includes(user.username))
+    if(!(user && (user.isAdmin || correctUser.sailorUsername === user.username))) {
+      throw new UnauthorizedError()
+    }
+    return next() 
+  } catch(err) {
+    return next(err)
+  }
+}
 
 module.exports = {
   authenticateJWT,

@@ -5,7 +5,8 @@
 const jsonschema = require("jsonschema")
 const express = require("express")
 const { BadRequestError } = require("../expressError")
-const { ensureCorrectUserOrAdminVoyage, ensureCorrectUserOrAdmin } = require("../middleware/auth")
+const { ensureCorrectUserOrAdminVoyage } = require("../middleware/auth")
+const { ensureCorrectUserOrAdmin } = require("../middleware/auth")
 const Voyage = require("../models/voyage")
 const voyageNewSchema = require("../schemas/voyageNew.json")
 const voyageUpdateSchema = require("../schemas/voyageUpdate.json")
@@ -68,7 +69,7 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: pending
  */
 
-router.patch("/:id/edit", async function (req, res, next) {
+router.patch("/:id/edit", ensureCorrectUserOrAdminVoyage, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, voyageUpdateSchema)
     if (!validator.valid) {
@@ -87,7 +88,7 @@ router.patch("/:id/edit", async function (req, res, next) {
  * Authorization required: pending
  */
 
-router.delete("/:id/delete", async function (req, res, next) {
+router.delete("/:id/delete", ensureCorrectUserOrAdminVoyage, async function (req, res, next) {
   try {
     await Voyage.remove(req.params.id);
     return res.json({ deleted: +req.params.id });

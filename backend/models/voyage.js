@@ -35,7 +35,8 @@ class Voyage {
   static async findAll() {
     const result = await db.query(
       `SELECT id, start_point AS "startPoint", end_point AS "endPoint", sailor_username AS "sailorUsername"
-      FROM voyage`
+      FROM voyage
+      ORDER BY id`
     )
     return result.rows
   }
@@ -63,6 +64,14 @@ class Voyage {
       [voyage.sailorUsername]
     )
 
+    const clubRes = await db.query(
+      `SELECT lat, lon
+      FROM clubs
+      WHERE name = $1`,
+      [voyage.startPoint]
+    )
+
+    voyage.club = clubRes.rows[0]
     voyage.user = sailorRes.rows[0]
     return voyage; 
   }
@@ -98,7 +107,7 @@ class Voyage {
   static async remove(id) {
     const result = await db.query(
       `DELETE
-      FROM voyages
+      FROM voyage
       WHERE id = $1
       RETURNING id`, 
       [id]

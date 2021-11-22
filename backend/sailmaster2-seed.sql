@@ -65,5 +65,6 @@ VALUES ('Soverel Harbour Marina','2401 PGA Blvd.','Palm Beach Gardens','FL',3341
 ('Ox Bow Yacht Club','100 Ox Bow Marina Drive','Isleton','CA',95641,38.151,-121.591,'916-777-5685','www.oxbowyachtclub.com'),
 ('Pacific Corinthian Yacht Club','2600 South Harbor Blvd','Channel Islands','CA',93035,34.1748172552586,-119.22849973944,'805-985-7292','https://www.pcyc.org/');
 
+-- 
 INSERT INTO voyage (start_point, end_point, sailor_username)
-VALUES ('Soverel Harbour Marina', 'Sunrise Harbor Marina', 'testuser'); 
+VALUES ('Newport Harbor Yacht Club', 'Pacific Corinthian Yacht Club', 'testadmin'), ('Seattle Yacht Club', 'Agamenticus Yacht Club', 'testadmin');

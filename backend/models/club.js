@@ -12,7 +12,8 @@ class Club {
 
   static async findAll() {
     let result = await db.query(
-      `SELECT id, name, address, city, state, zip, lat, lon, tel, url FROM clubs`
+      `SELECT id, name, address, city, state, zip, lat, lon, tel, url FROM clubs
+      ORDER BY name`
     )
     return result.rows
   }
