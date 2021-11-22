@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react' 
+// import React, { useState, useContext } from 'react' 
+import React, { useState, useContext, useEffect } from 'react' 
 import UserContext from '../helpers/UserContext' 
 import { useNavigate } from 'react-router-dom'
-import SailMasterIIApi from '../API/api'
 import { Container, Card, Form, Button } from 'react-bootstrap' 
 
 const Profile = ({ saveProfile }) => {
-    const { currentUser, setCurrentUser } = useContext(UserContext)
+    const { currentUser } = useContext(UserContext)
+    const [didMount, setDidMount] = useState(false) 
+
     const INITIAL_STATE = {
         username: currentUser.username, 
         firstName: currentUser.firstName, 
@@ -13,6 +15,7 @@ const Profile = ({ saveProfile }) => {
         email: currentUser.email, 
         password: ''
     }
+
     // formData, setFormdata state 
     const [formData, setFormData] = useState(INITIAL_STATE)
 
@@ -39,13 +42,24 @@ const Profile = ({ saveProfile }) => {
         } else {
             e.preventDefault()
             await saveProfile(formData) 
-            // setFormData({
-            //     ...formData,
-            //     password: ''
-            // })
+            setFormData({
+                ...formData,
+                password: ''
+            })
             alert('Change successful')
+            navigate('/') 
         }
         setValidated(true) 
+    }
+
+    // useEffect to fix memory leak for not having a cleanup function
+    useEffect(() => {
+        setDidMount(true)
+        return () => setDidMount(false)
+    }, [])
+
+    if(!didMount) {
+        return null 
     }
     
     return (
@@ -59,6 +73,7 @@ const Profile = ({ saveProfile }) => {
                         <Form.Group className="mb-3">
                                 <Form.Label>Username</Form.Label>
                                 <Form.Control
+                                    readOnly
                                     required 
                                     name="username"
                                     type="text" 
