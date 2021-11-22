@@ -20,7 +20,7 @@ const ClubDetail = () => {
     return (
         <Card className="mt-4 ">
             <Card.Body>
-                <Card.Title>Name: {club.name}</Card.Title>
+                <Card.Title>Club: {club.name}</Card.Title>
                 <Card.Text>Address: {`${club.address}, ${club.city}, ${club.state} ${club.state}`}</Card.Text>
                 <Card.Text>Website:  
                     {/* use noreferrer noopener attributes for opening websites in new tabs. Prevents security risks in older browsers */}
