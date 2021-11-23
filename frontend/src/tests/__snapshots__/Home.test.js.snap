@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="d-flex align-items-center justify-content-center mt-4 container"
+  >
+    <div
+      class="w-100 text-center"
+    >
+      <h1>
+        Welcome to Sail Master II
+      </h1>
+      <p>
+        Please register if this is your first time!
+      </p>
+      <p>
+        Happy Sailing!
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

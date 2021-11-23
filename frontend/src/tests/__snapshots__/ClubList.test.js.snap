@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="d-flex align-items-center justify-content-center mt-4 container"
+  >
+    <div
+      class="row"
+    >
+      <h1
+        class="text-center mb-4"
+      >
+        Sailing Clubs
+      </h1>
+    </div>
+  </div>
+</DocumentFragment>
+`;

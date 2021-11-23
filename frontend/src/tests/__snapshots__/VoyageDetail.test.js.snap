@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="mt-4 card"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="card-title h5"
+      >
+        From: undefined | To: undefined
+      </div>
+      <p
+        class="card-text"
+      >
+        @username: undefined
+      </p>
+      <p
+        class="card-text"
+      >
+        Origin Stats:
+      </p>
+      <p
+        class="card-text"
+      >
+        - Current Conditions: null
+      </p>
+      <p
+        class="card-text"
+      >
+        - Current Temperature: null degrees celsius
+      </p>
+      <p
+        class="card-text"
+      >
+        - Temperature Feels Like: null degrees celsius
+      </p>
+      <p
+        class="card-text"
+      >
+        - Humidity: null%
+      </p>
+      <p
+        class="card-text"
+      >
+        - Precipitation: nullmm
+      </p>
+      <p
+        class="card-text"
+      >
+        - Visibility: nullkm
+      </p>
+      <p
+        class="card-text"
+      >
+        - Wind: nullkph at null degrees blowing from null
+      </p>
+      <div
+        class="card-title h5"
+      >
+        &gt; Sailing Advice: Wind is calm. You will have a great sailing!
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
