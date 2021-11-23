@@ -1,0 +1,18 @@
+-- Deployment --
+1. backend 
+$ heroku login
+$ heroku create sailmaster2
+$ echo "web: node server.js" > Procfile
+$ heroku git:remote -a sailmaster2
+$ git add .
+$ git commit -m "ready to deploy backend"
+$ git push heroku master
+$ heroku addons:create heroku-postgresql:hobby-dev -a sailmaster2
+$ heroku pg:push sailmaster2 DATABASE_URL -a sailmaster2
+$ heroku config:set PGSSLMODE=no-verify
+$ heroku open
+
+$ npm install --global surge 
+$ REACT_APP_BASE_URL=https://https://sailmaster2.herokuapp.com/ npm run build 
+$ cp build/index.html build/200.html 
+$ surge build 
