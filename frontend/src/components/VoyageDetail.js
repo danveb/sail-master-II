@@ -3,6 +3,7 @@ import SailMasterIIApi from '../API/api'
 import { Card } from 'react-bootstrap' 
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import SECRET_KEY from '../helpers/secret'
 
 const VoyageDetail = () => {
     // useState
@@ -43,7 +44,6 @@ const VoyageDetail = () => {
     // const SECRET_KEY = '5a631d12891bda5503f40405f8213584'
 
     const URL = "http://api.weatherapi.com/v1/current.json"
-    const SECRET_KEY = "1384ecea483d4ff1839191643212111"
 
     useEffect(() => {
         async function getWeather() {
