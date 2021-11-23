@@ -22,7 +22,7 @@ CREATE TABLE clubs (
 
 CREATE TABLE voyage (
   id SERIAL NOT NULL,
-  start_point TEXT NOT NULL REFERENCES clubs, 
-  end_point TEXT NOT NULL REFERENCES clubs, 
+  start_point TEXT NOT NULL, 
+  end_point TEXT NOT NULL, 
   sailor_username TEXT NOT NULL
 );
