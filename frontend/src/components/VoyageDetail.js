@@ -9,69 +9,48 @@ const VoyageDetail = () => {
     // useState
     const [voyage, setVoyage] = useState([]) 
     const { id } = useParams() 
+    const [currentCondition, setCurrentCondition] = useState([])
 
-    // Work with OpenweatherMap API to get sailing conditions
+    // Weather API 
+    const URL = "http://api.weatherapi.com/v1/current.json"
 
     // useEffect 
     useEffect(() => {
-        async function getVoyages() {
-            const response = await SailMasterIIApi.getVoyages() 
-            setVoyage(response)
-        }
-        getVoyages() 
-    }, [])
-
-    useEffect(() => {
         async function getVoyage(id) {
+            console.log('Component start 1')
             const response = await SailMasterIIApi.getVoyage(id) 
+            // console.log(response) 
             setVoyage(response)
         }
         getVoyage(id) 
+        // load ID to have available data showing on voyage details
+        // to render every single time id changes
     }, [id])
-
-    // OpenweatherMap API 
-    const [condition, setCondition] = useState(null) 
-    const [temperature, setTemperature] = useState(null) 
-    const [feelsLike, setFeelsLike] = useState(null) 
-    const [humidity, setHumidity] = useState(null) 
-    const [precipitation, setPrecipitation] = useState(null) 
-    const [visibility, setVisibility] = useState(null) 
-    const [windSpeed, setWindSpeed] = useState(null) 
-    const [windDegree, setWindDegree] = useState(null) 
-    const [windDirection, setWindDirection] = useState(null) 
-
-    // const URL = "https://api.openweathermap.org/data/2.5/onecall" 
-    // const SECRET_KEY = '5a631d12891bda5503f40405f8213584'
-
-    const URL = "http://api.weatherapi.com/v1/current.json"
 
     useEffect(() => {
         async function getWeather() {
+            console.log('Component start 2')
             try {
                 const response = await axios.get(`${URL}?key=${SECRET_KEY}&q=${voyage.club.lat},${voyage.club.lon}&aqi=no`)
-                setCondition(response.data.current.condition.text)
-                setTemperature(response.data.current.temp_c) 
-                setFeelsLike(response.data.current.feelslike_c)
-                setHumidity(response.data.current.humidity)
-                setPrecipitation(response.data.current.precip_mm)
-                setVisibility(response.data.current.vis_km)
-                setWindSpeed(response.data.current.wind_kph)
-                setWindDegree(response.data.current.wind_degree)
-                setWindDirection(response.data.current.wind_dir) 
+                setCurrentCondition(response.data.current) 
             } catch(err) {
                 console.log(err) 
             }
         }
         getWeather()
-        // load all dependencies to have available data showing on voyage details
-    }, [voyage, condition, temperature, feelsLike, humidity, precipitation, visibility, windSpeed, windDegree, windDirection])
-
-    const sailingAdvice = () => {
-        if(windSpeed > 22) {
+        // cleaning up
+        return function cleanup() {
+            setCurrentCondition([])
+        }
+        // load voyage dependencies to have available data showing on voyage details
+    }, [voyage])
+    
+    const sailingAdvice = (wind) => {
+        if(wind > 22) {
             return 'Conditions are dangerous. Please consider sailing for next time.'
-        } else if(windSpeed > 17) {
+        } else if(wind > 17) {
             return 'Wind is fairly strong. Please exercise extra caution today.'
-        } else if(windSpeed > 9) {
+        } else if(wind > 9) {
             return 'Wind is fair today.'
         } else {
             return 'Wind is calm. You will have a great sailing!'
@@ -84,14 +63,14 @@ const VoyageDetail = () => {
                 <Card.Title>{`From: ${voyage.startPoint} | To: ${voyage.endPoint}`}</Card.Title>
                 <Card.Text>{`@username: ${voyage.sailorUsername}`}</Card.Text>
                 <Card.Text>{`Origin Stats:`}</Card.Text>
-                <Card.Text>{`- Current Conditions: ${condition}`}</Card.Text>
-                <Card.Text>{`- Current Temperature: ${temperature} degrees celsius`}</Card.Text>
-                <Card.Text>{`- Temperature Feels Like: ${feelsLike} degrees celsius`}</Card.Text>
-                <Card.Text>{`- Humidity: ${humidity}%`}</Card.Text>
-                <Card.Text>{`- Precipitation: ${precipitation}mm`}</Card.Text>
-                <Card.Text>{`- Visibility: ${visibility}km`}</Card.Text>
-                <Card.Text>{`- Wind: ${windSpeed}kph at ${windDegree} degrees blowing from ${windDirection}`}</Card.Text>
-                <Card.Title>{`> Sailing Advice: ${sailingAdvice()}`}</Card.Title>
+                {/* <Card.Text>{`- Current Conditions: ${currentCondition.condition.text}`}</Card.Text> */}
+                <Card.Text>{`- Current Temperature: ${currentCondition.temp_c} degrees celsius`}</Card.Text>
+                <Card.Text>{`- Temperature Feels Like: ${currentCondition.feelslike_c} degrees celsius`}</Card.Text>
+                <Card.Text>{`- Humidity: ${currentCondition.humidity}%`}</Card.Text>
+                <Card.Text>{`- Precipitation: ${currentCondition.precip_mm}mm`}</Card.Text>
+                <Card.Text>{`- Visibility: ${currentCondition.vis_km}km`}</Card.Text>
+                <Card.Text>{`- Wind: ${currentCondition.wind_kph}kph at ${currentCondition.wind_degree} degrees blowing from ${currentCondition.wind_dir}`}</Card.Text>
+                <Card.Title>{`> Sailing Advice: ${sailingAdvice(currentCondition.wind_kph)}`}</Card.Title>
             </Card.Body>
         </Card>
     )
