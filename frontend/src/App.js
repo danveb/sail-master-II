@@ -59,10 +59,8 @@ const App = () => {
     try {
       let token = await SailMasterIIApi.signup(signupData) 
       setToken(token)
-      alert('Signup successful!')
     } catch(err) {
       console.error('Signup failed', err) 
-      alert('Signup failed. Please try again')
     }
   }
 

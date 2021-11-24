@@ -34,7 +34,6 @@ const SignupForm = ({ signup }) => {
         const form = e.currentTarget 
         if(form.checkValidity() === false) {
             e.preventDefault()
-            e.stopPropagation() 
         } else {
             e.preventDefault()
             // console.log('submitted')
@@ -48,6 +47,8 @@ const SignupForm = ({ signup }) => {
         <Container className="d-flex align-items-center justify-content-center mt-4">
             <div className="w-100" style={{ maxWidth: "400px" }}>
                 <Card>
+                <Card.Img variant="top" src="https://images.fineartamerica.com/images-medium-large-5/dusable-harbor-chicago-steve-gadomski.jpg" /> 
+                
                     <Card.Body>
                         <h2 className="text-center mb-4">Sail Master II Registration</h2> 
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
