@@ -45,6 +45,7 @@ const LoginForm = ({ login }) => {
         <Container className="d-flex align-items-center justify-content-center mt-4">
             <div className="w-100" style={{ maxWidth: "400px" }}>
                 <Card>
+                    <Card.Img variant="top" src="https://www.lakepowell.com/media/822008/lake-powell-resorts-wahweap-marina-building-1-1000x500.jpg" /> 
                     <Card.Body>
                         <h2 className="text-center mb-4">Sail Master II Login</h2> 
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
