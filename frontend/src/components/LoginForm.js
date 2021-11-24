@@ -1,6 +1,7 @@
 import React, { useState } from 'react' 
 import { useNavigate } from 'react-router-dom' 
 import { Container, Card, Form, Button } from 'react-bootstrap' 
+import Alert from '../helpers/Alert' 
 
 const LoginForm = ({ login }) => {
     /** INITIAL_STATE object holds username, password */
@@ -9,11 +10,16 @@ const LoginForm = ({ login }) => {
         password: ''
     }
 
-    // formData, setFormdata state 
+    // formData, setFormdata state by default will refer to above state
     const [formData, setFormData] = useState(INITIAL_STATE)
 
-    // formValidation to be HTML5 validation
+    // formValidation to be HTML5 validation (react-bootstrap) 
+    // initially set to be false 
     const [validated, setValidated] = useState(false) 
+
+    // formErrors; errors will display below if formErrors has any messages
+    // works in conjunction with Alert component below
+    const [formErrors, setFormErrors] = useState([]) 
 
     // useNavigate for react-router-dom v6
     const navigate = useNavigate() 
@@ -27,16 +33,19 @@ const LoginForm = ({ login }) => {
         }))
     }
 
-    const handleSubmit = (e) => {
+    // handleSubmit with HTML5 validation (react-bootstrap)
+    const handleSubmit = async (e) => {
         const form = e.currentTarget 
         if(form.checkValidity() === false) {
             e.preventDefault()
-            e.stopPropagation() 
         } else {
             e.preventDefault()
-            // console.log('submitted')
-            login(formData)
-            navigate('/')
+            let result = await login(formData) 
+            if(result.success) {
+                navigate('/')
+            } else {
+                setFormErrors(result.errors)
+            }      
         }
         setValidated(true) 
     }
@@ -73,6 +82,10 @@ const LoginForm = ({ login }) => {
                                     onChange={handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group>
+                                {formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
                             </Form.Group>
 
                             <Form.Group>
