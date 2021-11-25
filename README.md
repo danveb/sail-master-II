@@ -21,7 +21,7 @@ A list of sailing houses are populated by default. Users can view key informatio
 ## Deployment 
 
 1. Front End
-- Surge - [Link to Surge](https://www.google.com)
+- Surge - [Link to Surge](TBA)
 - Repo - [Link to GitHub](https://github.com/danveb/sail-master-II)
 
 2. Back End 
