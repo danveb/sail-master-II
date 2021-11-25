@@ -30,5 +30,3 @@ test('/voyage route', () => {
     ));
     expect(getByText('Voyage List')).toBeInTheDocument() 
 })
-
-
