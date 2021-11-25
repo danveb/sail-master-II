@@ -1,27 +1,41 @@
-import React, { useState } from 'react' 
-import { useNavigate } from 'react-router-dom' 
+import React, { useState, useContext, useEffect } from 'react' 
+import UserContext from '../helpers/UserContext' 
 import { Container, Card, Form, Button } from 'react-bootstrap' 
+import SailMasterIIApi from '../API/api'
 import Alert from '../helpers/Alert' 
 
-const SignupForm = ({ signup }) => {
-    // formData, setFormdata state by default 
+const ProfileForm = () => {
+    // useContext
+    const { currentUser, setCurrentUser } = useContext(UserContext)
+    // keep track of profile save 
+    const [saveConfirmed, setSaveConfirmed] = useState(false) 
+    // console.log(currentUser) 
+    
+    // initial state of form to be currentUser's data
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        email: ''
+        username: currentUser.username, 
+        firstName: currentUser.firstName, 
+        lastName: currentUser.lastName, 
+        email: currentUser.email, 
+        password: ''
     })
-
+    
     // formValidation to be HTML5 validation
     const [validated, setValidated] = useState(false) 
+    
+    const [formErrors, setFormErrors] = useState([])
+    
+    // useEffect to fix memory leak for not having a cleanup function
+    const [didMount, setDidMount] = useState(false) 
 
-    // formErrors; errors will display below if formErrors has any messages
-    // works in conjunction with Alert component below
-    const [formErrors, setFormErrors] = useState([]) 
+    useEffect(() => {
+        setDidMount(true)
+        return () => setDidMount(false)
+    }, [])
 
-    // useNavigate for react-router-dom v6
-    const navigate = useNavigate() 
+    if(!didMount) {
+        return null 
+    }
 
     const handleChange = (e) => {
         // destructure e.target and use name/value 
@@ -31,36 +45,39 @@ const SignupForm = ({ signup }) => {
             [name]: value 
         }))
     }
-    
-    // handleSubmit with HTML5 validation (react-bootstrap)
+
     const handleSubmit = async (e) => {
         const form = e.currentTarget 
         if(form.checkValidity() === false) {
-            e.preventDefault()
+            e.preventDefault() 
         } else {
-            e.preventDefault()
-            let result = await signup(formData) 
-            if(result.success) {
-                navigate('/')
-            } else {
-                setFormErrors(result.errors) 
+            e.preventDefault() 
+            try {
+                await SailMasterIIApi.saveProfile(formData) 
+            } catch(errors) {
+                setFormErrors(errors) 
+                return 
             }
+            setFormErrors([])
+            setSaveConfirmed([])
+            // trigger reloading of user information throughout the site
+            setCurrentUser(currentUser)
         }
         setValidated(true) 
     }
-
+    
     return (
         <Container className="d-flex align-items-center justify-content-center mt-4">
             <div className="w-100" style={{ maxWidth: "400px" }}>
                 <Card>
-                <Card.Img variant="top" src="https://images.fineartamerica.com/images-medium-large-5/dusable-harbor-chicago-steve-gadomski.jpg" /> 
-                
                     <Card.Body>
-                        <h2 className="text-center mb-4">Sail Master II Registration</h2> 
+                        <h2 className="text-center mb-4">Profile</h2> 
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3">
+                            
+                        <Form.Group className="mb-3">
                                 <Form.Label>Username</Form.Label>
                                 <Form.Control
+                                    readOnly
                                     required 
                                     name="username"
                                     type="text" 
@@ -125,11 +142,13 @@ const SignupForm = ({ signup }) => {
 
                             <Form.Group>
                                 {formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
+                                
+                                {saveConfirmed ? ( <Alert type="success" messages={["Updated successfully."]} /> ) : null}
                             </Form.Group>
 
                             <Form.Group>
                                 <Button className="w-100" type="submit">
-                                    Sign Up
+                                    Save Changes
                                 </Button>
                             </Form.Group>
                         </Form> 
@@ -140,4 +159,4 @@ const SignupForm = ({ signup }) => {
     )
 }
 
-export default SignupForm
+export default ProfileForm
