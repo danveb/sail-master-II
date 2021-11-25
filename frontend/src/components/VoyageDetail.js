@@ -12,7 +12,7 @@ const VoyageDetail = () => {
     const [currentCondition, setCurrentCondition] = useState([])
 
     // Weather API 
-    const URL = "http://api.weatherapi.com/v1/current.json"
+    const URL = "https://api.weatherapi.com/v1/current.json"
 
     // useEffect 
     useEffect(() => {
