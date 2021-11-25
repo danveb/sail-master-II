@@ -1,3 +1,10 @@
+-- Backend Testing with JEST -- 
+$ jest helpers/sql.test.js
+$ jest helpers/tokens.test.js
+$ jest middleware/auth.test.js
+$ jest models/voyage.test.js 
+$ jest models/user.test.js 
+
 -- Deployment --
 1. backend 
 $ heroku login
@@ -13,6 +20,6 @@ $ heroku config:set PGSSLMODE=no-verify
 $ heroku open
 
 $ npm install --global surge 
-$ REACT_APP_BASE_URL=https://https://sailmaster2.herokuapp.com/ npm run build 
+$ REACT_APP_BASE_URL=https://sailmaster2.herokuapp.com/ npm run build 
 $ cp build/index.html build/200.html 
 $ surge build 
