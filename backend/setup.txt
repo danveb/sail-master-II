@@ -8,18 +8,25 @@ $ jest models/user.test.js
 -- Deployment --
 1. backend 
 $ heroku login
-$ heroku create sailmaster2
+$ heroku create sailmaster2-backend
 $ echo "web: node server.js" > Procfile
-$ heroku git:remote -a sailmaster2
+$ heroku git:remote -a sailmaster2-backend
 $ git add .
 $ git commit -m "ready to deploy backend"
 $ git push heroku master
-$ heroku addons:create heroku-postgresql:hobby-dev -a sailmaster2
-$ heroku pg:push sailmaster2 DATABASE_URL -a sailmaster2
+$ heroku addons:create heroku-postgresql:hobby-dev -a sailmaster2-backend
+$ heroku pg:push sailmaster2 DATABASE_URL -a sailmaster2-backend
 $ heroku config:set PGSSLMODE=no-verify
 $ heroku open
 
+-- Populate seed file to Heroku --
+pg:info --app sailmaster2
+Add-on postgresql-flexible-64242
+heroku pg:psql postgresql-flexible-64242 --app sailmaster2-backend
+
+-- Front end Deployment --
+$ npx create-react-app 50-sailmaster2-frontend
 $ npm install --global surge 
-$ REACT_APP_BASE_URL=https://sailmaster2.herokuapp.com/ npm run build 
+$ REACT_APP_BASE_URL=https://sailmaster2-backend.herokuapp.com npm run build 
 $ cp build/index.html build/200.html 
 $ surge build 
