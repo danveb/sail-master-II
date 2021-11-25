@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import ClubList from './components/ClubList'
-import ClubCard from './components/ClubCard'
 import ClubDetail from './components/ClubDetail'
 import VoyageList from './components/VoyageList'
 import VoyageDetail from './components/VoyageDetail'
@@ -85,8 +84,10 @@ const App = () => {
     try {
       let newVoyage = await SailMasterIIApi.newVoyage(data)
       setVoyage({...voyage, ...newVoyage}) 
-    } catch(err) {
-      console.error('Adding new voyage failed', err)
+      return { success: true }
+    } catch(errors) {
+      console.error('Adding new voyage failed', errors)
+      return { success: false, errors }
     }
   }
 

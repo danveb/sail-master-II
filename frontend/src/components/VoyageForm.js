@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import SailMasterIIApi from '../API/api'
 import { Container, Card, Form, Button } from 'react-bootstrap' 
+import Alert from '../helpers/Alert' 
 
 const VoyageForm = ({ currentUser, newVoyage }) => {
     // formData, setFormdata state 
@@ -23,6 +24,10 @@ const VoyageForm = ({ currentUser, newVoyage }) => {
     // formValidation to be HTML5 validation
     const [validated, setValidated] = useState(false) 
 
+    // formErrors; errors will display below if formErrors has any messages
+    // works in conjunction with Alert component below
+    const [formErrors, setFormErrors] = useState([]) 
+
     // useNavigate for react-router-dom v6
     const navigate = useNavigate() 
 
@@ -35,16 +40,18 @@ const VoyageForm = ({ currentUser, newVoyage }) => {
         }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         const form = e.currentTarget 
         if(form.checkValidity() === false) {
             e.preventDefault()
-            e.stopPropagation() 
         } else {
             e.preventDefault()
-            // console.log('submitted')
-            newVoyage(formData)
-            navigate('/voyage')
+            let result = await newVoyage(formData) 
+            if(result.success) {
+                navigate('/voyage')
+            } else {
+                setFormErrors(result.errors) 
+            }
         }
         setValidated(true) 
     }
@@ -101,6 +108,10 @@ const VoyageForm = ({ currentUser, newVoyage }) => {
                                     onChange={handleChange}
                                     readOnly
                                 />
+                            </Form.Group>
+
+                            <Form.Group>
+                                {formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
                             </Form.Group>
 
                             <Form.Group>
