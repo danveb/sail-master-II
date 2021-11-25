@@ -47,10 +47,10 @@ const App = () => {
     try {
       let token = await SailMasterIIApi.login(loginData)
       setToken(token)
-      alert('Login successful!')
-    } catch(err) {
-      console.error('Login failed', err)
-      alert('Login failed. Please try again')
+      return { success: true }
+    } catch(errors) {
+      console.error('Login failed', errors)
+      return { success: false, errors }
     }
   }
 

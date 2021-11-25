@@ -4,14 +4,11 @@ import { Container, Card, Form, Button } from 'react-bootstrap'
 import Alert from '../helpers/Alert' 
 
 const LoginForm = ({ login }) => {
-    /** INITIAL_STATE object holds username, password */
-    const INITIAL_STATE = {
+    // formData, setFormdata state by default will refer to above state
+    const [formData, setFormData] = useState({
         username: '',
         password: ''
-    }
-
-    // formData, setFormdata state by default will refer to above state
-    const [formData, setFormData] = useState(INITIAL_STATE)
+    })
 
     // formValidation to be HTML5 validation (react-bootstrap) 
     // initially set to be false 
