@@ -24,18 +24,6 @@ const ProfileForm = () => {
     const [validated, setValidated] = useState(false) 
     
     const [formErrors, setFormErrors] = useState([])
-    
-    // useEffect to fix memory leak for not having a cleanup function
-    const [didMount, setDidMount] = useState(false) 
-
-    useEffect(() => {
-        setDidMount(true)
-        return () => setDidMount(false)
-    }, [])
-
-    if(!didMount) {
-        return null 
-    }
 
     const handleChange = (e) => {
         // destructure e.target and use name/value 
@@ -52,8 +40,18 @@ const ProfileForm = () => {
             e.preventDefault() 
         } else {
             e.preventDefault() 
+            let profileData = {
+                firstName: formData.firstName, 
+                lastName: formData.lastName, 
+                email: formData.email, 
+                password: formData.password
+            }
+
+            let username = formData.username 
+            let updatedUser; 
+
             try {
-                await SailMasterIIApi.saveProfile(formData) 
+                updatedUser = await SailMasterIIApi.saveProfile(username, profileData) 
             } catch(errors) {
                 setFormErrors(errors) 
                 return 
@@ -61,7 +59,7 @@ const ProfileForm = () => {
             setFormErrors([])
             setSaveConfirmed([])
             // trigger reloading of user information throughout the site
-            setCurrentUser(currentUser)
+            setCurrentUser(updatedUser)
         }
         setValidated(true) 
     }

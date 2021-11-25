@@ -6,7 +6,7 @@ const Profile = () => {
     const { currentUser } = useContext(UserContext)
     return (
         <>
-        {currentUser.username ? (
+        {currentUser ? (
             <ProfileForm currentUser={currentUser} /> 
         ) : (
             <p>Loading...</p>

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react' 
+import React, { useState, useEffect, useContext } from 'react' 
 import SailMasterIIApi from '../API/api'
 import { Link } from 'react-router-dom'
 import { Container, Row, Button, Table } from 'react-bootstrap'
 import { FaCheckCircle, FaTrashAlt } from "react-icons/fa"
+import UserContext from '../helpers/UserContext'
 
-const VoyageList = ({ currentUser }) => {    
+const VoyageList = () => {    
+    const { currentUser } = useContext(UserContext)
     // useState
     const [voyage, setVoyage] = useState([])
 
@@ -24,8 +26,7 @@ const VoyageList = ({ currentUser }) => {
     // filter voyages based on currentUser
     // if currentUser.isAdmin can view all voyages
     let filteredVoyages = voyage.filter((v) => v.sailorUsername === currentUser.username || currentUser.isAdmin)
-
-    if(!voyage) return console.error('No voyages yet. Please consider adding one')
+    // console.log(filteredVoyages) 
 
     return (
         <Container className="d-flex align-items-center justify-content-center mt-4">

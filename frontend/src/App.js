@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import ClubList from './components/ClubList'
+import ClubCard from './components/ClubCard'
 import ClubDetail from './components/ClubDetail'
 import VoyageList from './components/VoyageList'
 import VoyageDetail from './components/VoyageDetail'
@@ -31,8 +32,8 @@ const App = () => {
       async function getCurrentUser() {
         if(token) {
           try {
-            let decode = jwt.decode(token)
-            let username = decode.username
+            let { username } = jwt.decode(token)
+            // let username = decode.username
             SailMasterIIApi.token = token 
             let currentUser = await SailMasterIIApi.getCurrentUser(username)
             setCurrentUser(currentUser) 
@@ -96,16 +97,17 @@ const App = () => {
       <BrowserRouter>
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
           <NavBar currentUser={currentUser} logout={logout} /> 
-          <Routes>
-              <Route path="/" element={<Home currentUser={currentUser} />}></Route>
-              <Route path="/clubs" element={<ClubList />}></Route>
-              <Route path="/clubs/:id" element={<ClubDetail />}></Route>
-              <Route path="/signup" element={<SignupForm signup={signup} />}></Route>
-              <Route path="/login" element={<LoginForm login={login} />}></Route>  
-              <Route path="/voyage" element={<VoyageList currentUser={currentUser} />}></Route>
-              <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />}></Route>
-              <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />}></Route>
-              <Route path="/profile" element={<Profile currentUser={currentUser} />}></Route>
+            <Routes>
+              <Route path="/" element={<App />} />
+                <Route index element={<Home currentUser={currentUser} />} />
+                <Route path="/clubs" element={<ClubList />} />
+                <Route path="/clubs/:id" element={<ClubDetail />} />
+                <Route path="/signup" element={<SignupForm signup={signup} />} />
+                <Route path="/login" element={<LoginForm login={login} />} />
+                <Route path="/voyage" element={<VoyageList currentUser={currentUser} />} />
+                  <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />} />
+                  <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />} />
+                <Route path="/profile" element={<Profile currentUser={currentUser} />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>
