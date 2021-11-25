@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react' 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import ClubList from './components/ClubList'
@@ -95,23 +95,21 @@ const App = () => {
   
   return (
     <div className="App">
-      <BrowserRouter>
-        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-          <NavBar currentUser={currentUser} logout={logout} /> 
-            <Routes>
-              <Route path="/" element={<App />} />
-                <Route index element={<Home currentUser={currentUser} />} />
-                <Route path="/clubs" element={<ClubList />} />
-                <Route path="/clubs/:id" element={<ClubDetail />} />
-                <Route path="/signup" element={<SignupForm signup={signup} />} />
-                <Route path="/login" element={<LoginForm login={login} />} />
-                <Route path="/voyage" element={<VoyageList currentUser={currentUser} />} />
-                  <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />} />
-                  <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />} />
-                <Route path="/profile" element={<Profile currentUser={currentUser} />} />
+      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <NavBar currentUser={currentUser} logout={logout} /> 
+          <Routes>
+            <Route path="/" element={<App />} />
+              <Route index element={<Home currentUser={currentUser} />} />
+              <Route path="/clubs" element={<ClubList />} />
+              <Route path="/clubs/:id" element={<ClubDetail />} />
+              <Route path="/signup" element={<SignupForm signup={signup} />} />
+              <Route path="/login" element={<LoginForm login={login} />} />
+              <Route path="/voyage" element={<VoyageList currentUser={currentUser} />} />
+                <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />} />
+                <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />} />
+              <Route path="/profile" element={<Profile currentUser={currentUser} />} />
           </Routes>
-        </UserContext.Provider>
-      </BrowserRouter>
+      </UserContext.Provider>
     </div>
   );
 }
