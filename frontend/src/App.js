@@ -20,26 +20,33 @@ export const TOKEN_STORAGE_ID = "sailmaster2-token"
 
 const App = () => {
   // useState
-  const [currentUser, setCurrentUser] = useState(false)
+  const [infoLoaded, setInfoLoaded] = useState(false) 
+  const [currentUser, setCurrentUser] = useState(null)
   const [voyage, setVoyage] = useState([])
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID) 
 
   // useEffect 
-  useEffect(() => {
-    async function getCurrentUser() {
-      if(token) {
-        try {
-          let { username } = jwt.decode(token)
-          SailMasterIIApi.token = token 
-          let currentUser = await SailMasterIIApi.getCurrentUser(username)
-          setCurrentUser(currentUser) 
-        } catch(err) {
-          console.error('App loadUserInfo: problem loading', err) 
-          setCurrentUser(false) 
+  useEffect(
+    function loadUserInfo() {
+      async function getCurrentUser() {
+        if(token) {
+          try {
+            let decode = jwt.decode(token)
+            let username = decode.username
+            SailMasterIIApi.token = token 
+            let currentUser = await SailMasterIIApi.getCurrentUser(username)
+            setCurrentUser(currentUser) 
+          } catch(err) {
+            console.error('App loadUserInfo: problem loading', err) 
+            setCurrentUser(null) 
+          }
         }
+        setInfoLoaded(true) 
       }
-    }
-    getCurrentUser() 
+      // setInfoLoaded to false while async getCurrentUser runs
+      // once data is fetched this will be set to false 
+      setInfoLoaded(true) 
+      getCurrentUser() 
   }, [token])
 
   /** Handle user login */
@@ -59,21 +66,17 @@ const App = () => {
     try {
       let token = await SailMasterIIApi.signup(signupData) 
       setToken(token)
-    } catch(err) {
-      console.error('Signup failed', err) 
+      return { success: true }
+    } catch(errors) {
+      console.error('Signup failed', errors) 
+      return { success: false, errors}
     }
   }
 
   /** Handle user logout */
   function logout() {
-    setCurrentUser(false)
+    setCurrentUser(null)
     setToken(null) 
-  }
-
-  /** Handle user profile edit */
-  const saveProfile = async (data) => {
-    const response = await SailMasterIIApi.saveProfile(data)
-    setCurrentUser(response) 
   }
 
   /** Handle new voyage */
@@ -85,6 +88,8 @@ const App = () => {
       console.error('Adding new voyage failed', err)
     }
   }
+
+  if(!infoLoaded) return <p>Loading...</p>
   
   return (
     <div className="App">
@@ -100,7 +105,7 @@ const App = () => {
               <Route path="/voyage" element={<VoyageList currentUser={currentUser} />}></Route>
               <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />}></Route>
               <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />}></Route>
-              <Route path="/profile" element={<Profile saveProfile={saveProfile} currentUser={currentUser} />}></Route>
+              <Route path="/profile" element={<Profile currentUser={currentUser} />}></Route>
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

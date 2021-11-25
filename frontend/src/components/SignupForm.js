@@ -1,22 +1,24 @@
 import React, { useState } from 'react' 
 import { useNavigate } from 'react-router-dom' 
 import { Container, Card, Form, Button } from 'react-bootstrap' 
+import Alert from '../helpers/Alert' 
 
 const SignupForm = ({ signup }) => {
-    /** INITIAL_STATE object holds username, firstName, lastName, email, password */
-    const INITIAL_STATE = {
+    // formData, setFormdata state by default 
+    const [formData, setFormData] = useState({
         username: '',
         password: '',
         firstName: '',
         lastName: '',
-        email: '', 
-    }
-
-    // formData, setFormdata state 
-    const [formData, setFormData] = useState(INITIAL_STATE)
+        email: ''
+    })
 
     // formValidation to be HTML5 validation
     const [validated, setValidated] = useState(false) 
+
+    // formErrors; errors will display below if formErrors has any messages
+    // works in conjunction with Alert component below
+    const [formErrors, setFormErrors] = useState([]) 
 
     // useNavigate for react-router-dom v6
     const navigate = useNavigate() 
@@ -29,16 +31,20 @@ const SignupForm = ({ signup }) => {
             [name]: value 
         }))
     }
-
-    const handleSubmit = (e) => {
+    
+    // handleSubmit with HTML5 validation (react-bootstrap)
+    const handleSubmit = async (e) => {
         const form = e.currentTarget 
         if(form.checkValidity() === false) {
             e.preventDefault()
         } else {
             e.preventDefault()
-            // console.log('submitted')
-            signup(formData)
-            navigate('/')
+            let result = await signup(formData) 
+            if(result.success) {
+                navigate('/')
+            } else {
+                setFormErrors(result.errors) 
+            }
         }
         setValidated(true) 
     }
@@ -116,6 +122,11 @@ const SignupForm = ({ signup }) => {
                                 />
                                 <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
                             </Form.Group>
+
+                            <Form.Group>
+                                {formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
+                            </Form.Group>
+
                             <Form.Group>
                                 <Button className="w-100" type="submit">
                                     Sign Up
