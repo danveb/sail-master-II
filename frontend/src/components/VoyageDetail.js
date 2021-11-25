@@ -16,20 +16,18 @@ const VoyageDetail = () => {
 
     // useEffect 
     useEffect(() => {
-        async function getVoyage(id) {
-            console.log('Component start 1')
+        async function getVoyage() {
             const response = await SailMasterIIApi.getVoyage(id) 
             // console.log(response) 
             setVoyage(response)
         }
-        getVoyage(id) 
+        getVoyage() 
         // load ID to have available data showing on voyage details
         // to render every single time id changes
     }, [id])
 
     useEffect(() => {
         async function getWeather() {
-            console.log('Component start 2')
             try {
                 const response = await axios.get(`${URL}?key=${SECRET_KEY}&q=${voyage.club.lat},${voyage.club.lon}&aqi=no`)
                 setCurrentCondition(response.data.current) 
