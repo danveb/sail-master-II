@@ -33,7 +33,7 @@ const VoyageList = () => {
         <Row>
             <h1 className="text-center mb-4">Voyage List</h1>
             <Button as={Link} to={`/voyage/new`} variant="success" className="mb-4">Create A Voyage</Button>
-                <Table striped bordered hover size="sm" responsive="xs">
+                <Table striped bordered hover size="sm" responsive="sm">
                 <thead>
                     <tr>
                         <th>Start Point</th>
