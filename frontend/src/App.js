@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react' 
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import ClubList from './components/ClubList'
@@ -104,10 +104,17 @@ const App = () => {
               <Route path="/clubs/:id" element={<ClubDetail />} />
               <Route path="/signup" element={<SignupForm signup={signup} />} />
               <Route path="/login" element={<LoginForm login={login} />} />
-              <Route path="/voyage" element={<VoyageList currentUser={currentUser} />} />
+              {/* as TRUE, only currentUser can access these following Routes */}
+              {currentUser && (
+                <>
+                <Route path="/voyage" element={<VoyageList currentUser={currentUser} />} />
                 <Route path="/voyage/new" element={<VoyageForm currentUser={currentUser} newVoyage={newVoyage} />} />
                 <Route path="/voyage/:id" element={<VoyageDetail currentUser={currentUser} />} />
-              <Route path="/profile" element={<Profile currentUser={currentUser} />} />
+                <Route path="/profile" element={<Profile currentUser={currentUser} />} />
+                </>
+              )} 
+              {/* working as redirect to "/" */}
+              <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
       </UserContext.Provider>
     </div>
