@@ -4,7 +4,7 @@ import { Navbar, Nav } from 'react-bootstrap'
 
 const NavBar = ({ currentUser, logout }) => {
     return (
-        <Navbar bg="light" expand="md">
+        <Navbar bg="light" expand="sm" sticky="top">
             <Navbar.Brand>
                 <Nav.Link as={Link} to="/">Sail Master II</Nav.Link>
             </Navbar.Brand>
