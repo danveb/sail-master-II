@@ -10,11 +10,11 @@ const ClubDetail = () => {
 
     // useEffect
     useEffect(() => {
-        async function getClub(id) {
+        async function getClub() {
             const response = await SailMasterIIApi.getClub(id) 
             setClub(response)
         }
-        getClub(id) 
+        getClub() 
     }, [id])
 
     return (
@@ -23,7 +23,7 @@ const ClubDetail = () => {
                 <Card.Img variant="top" src="https://www.lakepowell.com/media/822008/lake-powell-resorts-wahweap-marina-building-1-1000x500.jpg" />
                 <Card.Body>
                     <Card.Title>Club: {club.name}</Card.Title>
-                    <Card.Text>Address: {`${club.address}, ${club.city}, ${club.state} ${club.state}`}</Card.Text>
+                    <Card.Text>Address: {`${club.address}, ${club.city}, ${club.state} ${club.zip}`}</Card.Text>
                     <Card.Text>Website:  
                         {/* use noreferrer noopener attributes for opening websites in new tabs. Prevents security risks in older browsers */}
                         <a 

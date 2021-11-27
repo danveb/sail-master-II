@@ -36,7 +36,7 @@ const VoyageDetail = () => {
             }
         }
         getWeather()
-        // cleaning up
+        // cleaning up to prevent memory leaks
         return function cleanup() {
             setCurrentCondition([])
         }

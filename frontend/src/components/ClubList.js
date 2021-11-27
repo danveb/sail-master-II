@@ -14,7 +14,7 @@ const ClubList = () => {
             setClubs(response)
         }
         getClubs() 
-    }, [setClubs])
+    }, [])
 
     return (
         <Container className="d-flex align-items-center justify-content-center mt-4"> 
